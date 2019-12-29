@@ -53,3 +53,23 @@ func Upload(data string) {
 
 	fmt.Println("object added")
 }
+
+type writer struct {
+	data []byte
+}
+
+func (w writer) WriteAt(p []byte, off int64) (n int, err error) {
+	fmt.Println(string(p))
+	return len(p), nil
+}
+
+func Download() {
+	downloader := s3manager.NewDownloader(sess)
+	w := writer{}
+	result, err := downloader.Download(w, &s3.GetObjectInput{
+		Bucket: aws.String(myBucket),
+		Key:    aws.String(myKey),
+	})
+	HandlerErr(err)
+	fmt.Println(result)
+}
