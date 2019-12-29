@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/rayhaanbhikha/go-copy/s3"
 )
 
 func main() {
-	fmt.Println("hello world")
-
 	// check if aws creds are provided.
 
 	// TODO: scan input for aws access creds.
@@ -21,5 +20,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(data))
+
+	s3.Upload(string(data))
+
 }
