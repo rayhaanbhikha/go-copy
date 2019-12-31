@@ -13,3 +13,4 @@ jobs:
     - name: build binary
       run: |
         go help
+        node -v
