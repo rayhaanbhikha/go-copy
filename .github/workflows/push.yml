@@ -13,4 +13,5 @@ jobs:
     - name: build binary
       run: |
         go help
-        node -v
+        go env GOROOT
+        go env GOPATH
