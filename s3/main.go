@@ -24,21 +24,27 @@ var (
 	s3Instance = s3.New(sess)
 )
 
-func createBucket() {
+func createBucket() error {
 	fmt.Printf("creating bucket %s\n...", myBucket)
 	result, err := s3Instance.CreateBucket(&s3.CreateBucketInput{
 		Bucket: aws.String(myBucket),
 	})
-	HandlerErr(err)
+	if err != nil {
+		return err
+	}
 	fmt.Println(result)
+	return nil
 }
 
-// Upload ... accepts an array of bytes.
-func Upload(data string) {
+// Upload ...accepts an array of bytes and uploads to s3
+func Upload(data string) error {
 	fmt.Println("upload method was called")
 	bucketExists := CheckBucketExists(myBucket, s3Instance)
 	if !bucketExists {
-		createBucket()
+		err := createBucket()
+		if err != nil {
+			return err
+		}
 	}
 
 	// myBody := strings.NewReader("this is another test")
@@ -49,9 +55,13 @@ func Upload(data string) {
 		Key:    aws.String(myKey),
 		Body:   strings.NewReader(data),
 	})
-	HandlerErr(err)
+
+	if err != nil {
+		return err
+	}
 
 	fmt.Println("object added")
+	return nil
 }
 
 type writer struct {
@@ -63,13 +73,17 @@ func (w writer) WriteAt(p []byte, off int64) (n int, err error) {
 	return len(p), nil
 }
 
-func Download() {
+// Download ...downloads object from s3
+func Download() error {
 	downloader := s3manager.NewDownloader(sess)
 	w := writer{}
 	result, err := downloader.Download(w, &s3.GetObjectInput{
 		Bucket: aws.String(myBucket),
 		Key:    aws.String(myKey),
 	})
-	HandlerErr(err)
+	if err != nil {
+		return err
+	}
 	fmt.Println(result)
+	return nil
 }

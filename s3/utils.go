@@ -1,7 +1,7 @@
 package s3
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -10,7 +10,7 @@ import (
 // HandlerErr ... logs error
 func HandlerErr(err error) {
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 }
 
