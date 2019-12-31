@@ -12,4 +12,4 @@ jobs:
         fetch-depth: 1
     - name: build binary
       run: |
-      echo I am building go binary
+        echo I am building go binary
