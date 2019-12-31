@@ -1,0 +1,22 @@
+name: merging to master
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: clone repo with latest
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: run tests
+      run: |
+        ls -l
+    - name: build binary
+      run: |
+        go help
+        go env GOROOT
+        go env GOPATH

@@ -1,0 +1,17 @@
+name: on push
+on: push
+
+jobs:
+  build:
+    name: "build go binary"
+    runs-on: ubuntu-latest
+    steps:
+    - name: clone repo with latest
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: build binary
+      run: |
+        go help
+        go env GOROOT
+        go env GOPATH
